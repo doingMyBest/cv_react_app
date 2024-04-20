@@ -12,7 +12,11 @@ class  App extends Component {
       isGeneralEdit: true,
       isEducationEdit: true,
       isSkillEdit: true,
-    }
+      info: {},  // Initialize if expecting an object structure
+      educationInputs: [],  // Initialize as an empty array if it's expected to be an array
+      skills: {}  // Initialize if expecting an object structure
+    };
+    console.log('Initial educationInputs state:', this.state.educationInputs);
     this.handleGeneralSubmit = this.handleGeneralSubmit.bind(this)
     this.handleEducationSubmit = this.handleEducationSubmit.bind(this)
     this.handleSkillSubmit = this.handleSkillSubmit.bind(this)
@@ -27,35 +31,22 @@ class  App extends Component {
           email: info.email,
           phone: info.phone,
           file: info.file,
-          uploadedFileURL: info.uploadedFileURL
+          fileName: info.fileName, 
+          uploadedFileURL: info.uploadedFileURL,
+          errorMessage: info.errorMessage
         },
         isGeneralEdit: !prevState.isGeneralEdit
       }
     })
   }
 
-  handleFileUploadSuccess(fileUrl) {
+  handleEducationSubmit(educationInputs) {
     this.setState(prevState => ({
-      info: {
-        ...prevState.info,
-        uploadedFileURL: fileUrl
-      }
+      educationInputs,
+      isEducationEdit: !prevState.isEducationEdit
     }));
-  }
-
-  handleEducationSubmit(education) {
-    this.setState( (prevState) => {
-      return {
-        education: {
-          university: education.university,
-          studyField: education.studyField,
-          studyBeginDate: education.studyBeginDate,
-          studyEndDate: education.studyEndDate
-        },
-        isEducationEdit: !prevState.isEducationEdit
-      }
-    })
-  }
+  }  
+  
 
   handleSkillSubmit(skills) {
     this.setState( (prevState) => {
@@ -71,12 +62,12 @@ class  App extends Component {
   }
 
   toggleEdit(valueName) {
-    this.setState( (prevState) => {
-      let newState = {}
-      newState[valueName] = !prevState[valueName]
-      return newState
-    })
-  }
+    this.setState((prevState) => {
+      let newState = {};
+      newState[valueName] = !prevState[valueName];
+      return newState;
+    });
+  }  
 
   render(){
     return (
@@ -85,15 +76,12 @@ class  App extends Component {
           <GeneralEdit 
           submit={this.handleGeneralSubmit} 
           info={this.state.info}
-          onFileUploadSuccess={(fileUrl) => {
-            this.handleFileUploadSuccess(fileUrl);
-          }}
-        />: 
-          <GeneralDisplay submit={() => this.toggleEdit('isGeneralEdit')} info={this.state.info}/>
+        /> : 
+          <GeneralDisplay submit={() => this.toggleEdit('isGeneralEdit')} info={this.state.info} uploadedFileURL={this.state.info.uploadedFileURL} errorMessage={this.state.info.errorMessage} fileName={this.state.info.fileName}/>
         }
         {this.state.isEducationEdit ?
-          <EducationEdit submit={this.handleEducationSubmit} education={this.state.education} /> :
-          <EducationDisplay submit={() => this.toggleEdit('isEducationEdit')} education={this.state.education} />
+          <EducationEdit submit={this.handleEducationSubmit} educationInputs={this.state.educationInputs} /> :
+          <EducationDisplay submit={() => this.toggleEdit('isEducationEdit')} educationInputs={this.state.educationInputs} />
         }
         {this.state.isSkillEdit ?
           <SkillsEdit submit={this.handleSkillSubmit} skills={this.state.skills} /> :

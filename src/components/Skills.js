@@ -32,26 +32,36 @@ export class SkillsEdit extends Component {
                 <input
                     type="text"
                     name="skillName"
+                    placeholder="French"
                     value={this.state.skillName}
-                    onChange={this.handleChange} />
+                    onChange={this.handleChange} 
+                    required
+                    />
             </label>
             <br />
             <label>
                 Skill Level:
-                <input
-                    type="text"
+                <select
                     name="skillLevel"
-                    value={this.state.email}
-                    onChange={this.handleChange} />
+                    value={this.state.skillLevel}
+                    onChange={this.handleChange}
+                    >
+                          <option value="Beginer">Beginner</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Expert">Expert</option>
+                    </select>
             </label>
             <br />
             <label>
                 Place of Skill Acquisition:
                 <input
                     type="text"
-                    name="acquisionPlace"
+                    name="acquisitionPlace"
+                    placeholder="Example School"
                     value={this.state.acquisitionPlace}
-                    onChange={this.handleChange} />
+                    onChange={this.handleChange}
+                    required 
+                    />
             </label>
             <br />
             <button type="submit">Submit</button>
@@ -64,11 +74,14 @@ export class SkillsEdit extends Component {
 // Change the prop name from info to skills
 export function SkillsDisplay({ skills, submit }) {
     return (
-      <div>
-        <p>Skill Name: {skills?.skillName}</p>
-        <p>Skill Level: {skills?.skillLevel}</p>
-        <p>Acquisition Place: {skills?.acquisitionPlace}</p>
-        <button onClick={submit}>Edit</button>
+      <div id='skills-edit-div'>
+        <p><b>Skill Name:</b> {skills?.skillName}</p>
+        <p><b>Skill Level:</b> {skills?.skillLevel}</p>
+        <p><b>Acquisition Place:</b> {skills?.acquisitionPlace}</p>
+        <br></br>
+        <button type="submit" onClick={submit}>Edit</button>
       </div>
     );
   }  
+
+  //implement add and delete buttons

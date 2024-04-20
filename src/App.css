@@ -8,6 +8,11 @@ body {
   font-size: 16px;
 }
 
+::placeholder {
+  font-style: italic; 
+  font-family: Tahoma;
+}
+
 h2 {
   margin: 1em auto;
   text-align: center;
@@ -31,16 +36,26 @@ input
   margin: 10px 0 0 0;
   width: 100%;
   min-height: 2em;
+  background-color: #0a0a23;
+  border: 1px solid #0a0a23;
+  color: #ffffff;
 }
 
-input {
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  margin: 10px 0 0 0;
+  width: 100%;
+  min-height: 2em;
   background-color: #0a0a23;
   border: 1px solid #0a0a23;
   color: #ffffff;
 }
 
 button[type="submit"] {
-  background-color: #2D2D53; /* Green background */
+  background-color: #2D2D53; /* dark blue background */
   color: white; /* White text */
   padding: 14px 20px; /* Some padding */
   margin: 8px 0; /* Some space around */
@@ -51,6 +66,40 @@ button[type="submit"] {
   transition: background-color 0.3s ease; /* Smooth background color change on hover */
 }
 
-button[type="submit"]:hover {
-  background-color: #333356;; /* Darker shade of green for hover effect */
+#browse {
+  border: 1px solid #333;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 4px; /* Rounded corners */
+  background: #d2d2e8;
+  color: #686872;
+  font-style: italic;
+  font-size: 12px;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */ 
+  display: inline-block;
 }
+
+#browse:hover {
+  background: rgb(195, 195, 197);
+}
+
+select {
+  margin: 10px 0 0 0;
+  width: 100%;
+  min-height: 2.5em;
+  background-color: #0a0a23;
+  border: 1px solid #0a0a23;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+#skills-edit-div, #education-edit-div, #general-info-edit-div {
+  width: 60vw;
+  max-width: 500px;
+  min-width: 300px;
+  margin: 0 auto;
+  padding-bottom: 2em;
+}
+
+/* Style Add and delete Buttons */
