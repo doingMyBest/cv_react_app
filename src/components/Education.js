@@ -31,7 +31,6 @@ export class EducationEdit extends Component {
     this.setState({
       educationInputs: [...this.state.educationInputs, { university: '', studyField: '', studyBeginDate: '', studyEndDate: '' }]
     });
-    //console.log(this.state.educationInputs); array is set correctly
   };
 
   handleChange = (event, index) => {
@@ -125,7 +124,6 @@ export class EducationEdit extends Component {
 
 // EducationDisplay Component
 export function EducationDisplay({ educationInputs, submit }) {
-  console.log('Logged educationInputs:', educationInputs);
 
   // array is under a property called "education inputs"
   return (
