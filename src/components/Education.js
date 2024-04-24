@@ -1,30 +1,32 @@
 import React, { Component } from 'react';
 
-// EducationEdit Component
 export class EducationEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // if there is at least one input in the array, map the input
-      educationInputs: props.educationInputs.length > 0 ? 
-        props.educationInputs.map(input => ({
-          university: input.university || '',
-          studyField: input.studyField || '',
-          studyBeginDate: input.studyBeginDate || '',
-          studyEndDate: input.studyEndDate || ''
-        })) : 
-        [{ // Provide a default object if props.educationInputs is empty
-          university: '',
-          studyField: '',
-          studyBeginDate: '',
-          studyEndDate: ''
-        }]
-    };    
+      educationInputs: this.initializeEducationInputs(props.educationInputs || [])
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAddInput = this.handleAddInput.bind(this);
     this.handleDeleteInput = this.handleDeleteInput.bind(this);
+  }
+
+  initializeEducationInputs(inputs) {
+    return inputs.length > 0 ? 
+      inputs.map(input => ({
+        university: input.university || '',
+        studyField: input.studyField || '',
+        studyBeginDate: input.studyBeginDate || '',
+        studyEndDate: input.studyEndDate || ''
+      })) : 
+      [{
+        university: '',
+        studyField: '',
+        studyBeginDate: '',
+        studyEndDate: ''
+      }];
   }
 
   handleAddInput = () => {
@@ -48,8 +50,9 @@ export class EducationEdit extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.submit(this.state);
+    this.props.submit(this.state.educationInputs);
   }
+
 
   render() {
     return (
@@ -59,8 +62,10 @@ export class EducationEdit extends Component {
           <div className="container">
             {this.state.educationInputs.map((item, index) => (
               <div key={index}>
-                <button type="button" onClick={() => this.handleAddInput(index)}>Add</button>
-                <button type="button" onClick={() => this.handleDeleteInput(index)}>Delete</button>
+                <div id="education-button-div">
+                <button type="button" onClick={() => this.handleAddInput(index)}>+</button>
+                <button type="button" onClick={() => this.handleDeleteInput(index)}>-</button>
+                </div>
                 <br />
                 <label>
                   Educational Institution:
@@ -80,7 +85,9 @@ export class EducationEdit extends Component {
                     name="studyField"
                     value={item.studyField}
                     onChange={(event) => this.handleChange(event, index)}
+                    required
                   >
+                    <option value="">Select Field</option>
                     <option value="Engineering">Engineering</option>
                     <option value="ComputerScience">Computer Science</option>
                     <option value="Biology">Biology</option>
@@ -99,6 +106,7 @@ export class EducationEdit extends Component {
                     name="studyBeginDate"
                     value={item.studyBeginDate}
                     onChange={(event) => this.handleChange(event, index)}
+                    required
                   />
                 </label>
                 <br />
@@ -109,6 +117,7 @@ export class EducationEdit extends Component {
                     name="studyEndDate"
                     value={item.studyEndDate}
                     onChange={(event) => this.handleChange(event, index)}
+                    required
                   />
                 </label>
                 <br />
@@ -128,8 +137,9 @@ export function EducationDisplay({ educationInputs, submit }) {
   // array is under a property called "education inputs"
   return (
     <div id='education-edit-div'>
-      {educationInputs.educationInputs.map((education, index) => (
+      {educationInputs.map((education, index) => (
         <div key={index}>
+          <br></br>
           <p><b>Educational Institution:</b> {education.university}</p>
           <p><b>Field of Study:</b> {education.studyField}</p>
           <p><b>Begin of Study:</b> {education.studyBeginDate}</p>
@@ -140,6 +150,3 @@ export function EducationDisplay({ educationInputs, submit }) {
     </div>
   );  
 }
-
-//figure out why the object array structure is nested
-// information should be saved when going back to edit mode

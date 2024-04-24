@@ -1,8 +1,24 @@
+h1 {
+  text-align: center;
+}
+
+#cv-wrapper {
+  background-color: #343554;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding-top: 5%;
+  border-radius: 1%;
+  border-color: black;
+  border-style: solid;
+}
+
 body {
   width: 100%;
   height: 100vh;
   margin: 0;
-  background-color: #1b1b32;
+  background-color: #7c8796;
   color: #f5f6f7;
   font-family: Tahoma;
   font-size: 16px;
@@ -55,7 +71,7 @@ input[type="file"] {
 }
 
 button[type="submit"] {
-  background-color: #2D2D53; /* dark blue background */
+  background-color: #1b1b32; /* dark blue background */
   color: white; /* White text */
   padding: 14px 20px; /* Some padding */
   margin: 8px 0; /* Some space around */
@@ -64,6 +80,34 @@ button[type="submit"] {
   cursor: pointer; /* Pointer/hand icon */
   font-size: 16px; /* Font size matches the body */
   transition: background-color 0.3s ease; /* Smooth background color change on hover */
+}
+
+button[type="submit"]:hover {
+  transform: scale(1.05);
+}
+
+button[type="button"] {
+  font-weight: bold;
+  font-size: 1em;
+  background-color: #1b1b32; /* dark blue background */
+  color: white; /* White text */
+  padding: 14px 20px; /* Some padding */
+  border: none;
+  border-radius: 50%;
+  cursor: pointer; /* Pointer/hand icon */
+  transition: background-color 0.3s ease; /* Smooth background color change on hover */
+}
+
+button[type="button"]:hover {
+  transform: scale(1.05);
+}
+
+
+#education-button-div, #skills-button-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 5%;
 }
 
 #browse {
@@ -78,6 +122,7 @@ button[type="submit"] {
   justify-content: center; /* Horizontally center */
   align-items: center; /* Vertically center */ 
   display: inline-block;
+  cursor: pointer;
 }
 
 #browse:hover {
@@ -101,5 +146,3 @@ select {
   margin: 0 auto;
   padding-bottom: 2em;
 }
-
-/* Style Add and delete Buttons */

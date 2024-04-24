@@ -5,36 +5,74 @@ export class SkillsEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      skillName: props.skills?.skillName || '',
-      skillLevel: props.skills?.skillLevel || '',
-      acquisitionPlace: props.skills?.acquisitionPlace || '',
+      skillsInputs: this.initializeSkillsInput(props.skillsInputs || [])
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAddInput = this.handleAddInput.bind(this);
+    this.handleDeleteInput = this.handleDeleteInput.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+  initializeSkillsInput(inputs) {
+    return inputs.length > 0 ? 
+      inputs.map(input => ({
+        skillName: input.skillName || '',
+        skillLevel: input.skillLevel || '',
+        acquisitionPlace: input.acquisitionPlace || ''
+      })) : 
+      [{
+        skillName: '',
+        skillLevel: '',
+        acquisitionPlace: ''
+      }];
   }
+
+  handleAddInput = () => {
+    this.setState({
+      skillsInputs: [...this.state.skillsInputs, { skillName: '', skillLevel: '', acquisitionPlace: ''}]
+    });
+  };
+
+  handleChange = (event, index) => {
+    const { name, value } = event.target;
+    const skillsInputs = [...this.state.skillsInputs];
+    skillsInputs[index][name] = value;
+    this.setState({ skillsInputs });
+  };
+
+  handleDeleteInput = (index) => {
+    const skillsInputs = [...this.state.skillsInputs];
+    skillsInputs.splice(index, 1);
+    this.setState({ skillsInputs });
+  };
+
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.submit(this.state);
+    this.props.submit(this.state.skillsInputs);
   }
 
   render() {
     return (
         <div id = "skills-info">
-    <h2>Skills</h2><form onSubmit={this.handleSubmit}>
+    <h2>Skills</h2>
+    <form onSubmit={this.handleSubmit}>
+    <div className="container">
+    {this.state.skillsInputs.map((item, index) => (
+              <div key={index}>
+                <div id="skills-button-div">
+                <button type="button" onClick={() => this.handleAddInput(index)}>+</button>
+                <button type="button" onClick={() => this.handleDeleteInput(index)}>-</button>
+                </div>
             <label>
                 Skill Name:
                 <input
                     type="text"
                     name="skillName"
-                    placeholder="French"
-                    value={this.state.skillName}
-                    onChange={this.handleChange} 
+                    placeholder="Example Language"
+                    value={item.skillName}
+                    onChange={(event) => this.handleChange(event, index)}
                     required
                     />
             </label>
@@ -43,9 +81,11 @@ export class SkillsEdit extends Component {
                 Skill Level:
                 <select
                     name="skillLevel"
-                    value={this.state.skillLevel}
-                    onChange={this.handleChange}
+                    value={item.skillLevel}
+                    onChange={(event) => this.handleChange(event, index)}
+                    required
                     >
+                       <option value="">Select Skill Level</option>
                           <option value="Beginer">Beginner</option>
                       <option value="Intermediate">Intermediate</option>
                       <option value="Expert">Expert</option>
@@ -58,12 +98,15 @@ export class SkillsEdit extends Component {
                     type="text"
                     name="acquisitionPlace"
                     placeholder="Example School"
-                    value={this.state.acquisitionPlace}
-                    onChange={this.handleChange}
+                    value={item.acquisitionPlace}
+                    onChange={(event) => this.handleChange(event, index)}
                     required 
                     />
             </label>
             <br />
+            </div>
+            ))}
+            </div>
             <button type="submit">Submit</button>
         </form>
         </div>
@@ -71,17 +114,19 @@ export class SkillsEdit extends Component {
   }
 }
 
-// Change the prop name from info to skills
-export function SkillsDisplay({ skills, submit }) {
+// skillDisplay Component
+export function SkillsDisplay({ skillsInputs, submit }) {
     return (
       <div id='skills-edit-div'>
-        <p><b>Skill Name:</b> {skills?.skillName}</p>
-        <p><b>Skill Level:</b> {skills?.skillLevel}</p>
-        <p><b>Acquisition Place:</b> {skills?.acquisitionPlace}</p>
+        {skillsInputs.map((skill, index) => (
+        <div key={index}>
         <br></br>
+        <p><b>Skill Name:</b> {skill.skillName}</p>
+        <p><b>Skill Level:</b> {skill.skillLevel}</p>
+        <p><b>Acquisition Place:</b> {skill.acquisitionPlace}</p>
+        </div>
+        ))}
         <button type="submit" onClick={submit}>Edit</button>
       </div>
     );
-  }  
-
-  //implement add and delete buttons
+  }

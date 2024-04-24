@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 // GeneralEdit Component
 export class GeneralEdit extends Component {
@@ -26,14 +25,20 @@ handleChange(event) {
   if (type === 'file') {
     const file = files[0];
     if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
-      this.setState({
-        [name]: file,
-        fileName: file.name, // Update the fileName in state
-        errorMessage: ''
-      });
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        this.setState({
+          file: file,
+          fileName: file.name,
+          uploadedFileURL: loadEvent.target.result,
+          errorMessage: ''
+        });
+      };
+      reader.readAsDataURL(file);
     } else {
       this.setState({
-        fileName: '', // Clear filename if the file is not valid
+        fileName: '',
+        uploadedFileURL: null,
         errorMessage: 'Please select a PNG or JPEG file.'
       });
     }
@@ -46,28 +51,7 @@ handleChange(event) {
 
 
 handleSubmit(event) {
-  event.preventDefault();
-  const formData = new FormData();
-  if (this.state.file) {
-    formData.append('file', this.state.file);
-    formData.append('fileName', this.state.file.name);
-
-    axios.post('http://localhost:3001/uploadFile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }).then((response) => {
-      this.setState({ uploadedFileURL: response.data.fileUrl }, () => {
-        // Response.data.fileUrl contains the URL for the uploaded file
-        this.props.submit({ ...this.state, uploadedFileURL: response.data.fileUrl }); // Pass uploadedFileURL to the parent component
-      });
-    }).catch(error => {
-      console.error('Error uploading the file', error);
-    });
-  } else {
-    // Handle other types of submissions, e.g., text inputs
-    this.props.submit(this.state);
-  }
+  this.props.submit(this.state);
 }
 
   render() {

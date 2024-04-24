@@ -12,11 +12,10 @@ class  App extends Component {
       isGeneralEdit: true,
       isEducationEdit: true,
       isSkillEdit: true,
-      info: {},  // Initialize if expecting an object structure
-      educationInputs: [],  // Initialize as an empty array if it's expected to be an array
-      skills: {}  // Initialize if expecting an object structure
+      info: {},  // object structure
+      educationInputs: [],  // array structure
+      skillsInputs: []  // array structure
     };
-    console.log('Initial educationInputs state:', this.state.educationInputs);
     this.handleGeneralSubmit = this.handleGeneralSubmit.bind(this)
     this.handleEducationSubmit = this.handleEducationSubmit.bind(this)
     this.handleSkillSubmit = this.handleSkillSubmit.bind(this)
@@ -41,25 +40,22 @@ class  App extends Component {
   }
 
   handleEducationSubmit(educationInputs) {
-    this.setState(prevState => ({
-      educationInputs,
-      isEducationEdit: !prevState.isEducationEdit
-    }));
-  }  
-  
-
-  handleSkillSubmit(skills) {
     this.setState( (prevState) => {
       return {
-        skills: {
-          skillName: skills.skillName,
-          skillLevel: skills.skillLevel,
-          acquisitionPlace: skills.acquisitionPlace
-        },
-        isSkillEdit: !prevState.isSkillEdit
-      }
-    })
+      educationInputs,
+      isEducationEdit: !prevState.isEducationEdit
+    }
+  })
+}  
+  
+handleSkillSubmit(skillsInputs) {
+  this.setState( (prevState) => {
+    return {
+    skillsInputs,
+    isSkillEdit: !prevState.isSkillEdit
   }
+})
+}
 
   toggleEdit(valueName) {
     this.setState((prevState) => {
@@ -71,25 +67,29 @@ class  App extends Component {
 
   render(){
     return (
-      <div className="App">
-        {this.state.isGeneralEdit ? 
-          <GeneralEdit 
-          submit={this.handleGeneralSubmit} 
-          info={this.state.info}
-        /> : 
-          <GeneralDisplay submit={() => this.toggleEdit('isGeneralEdit')} info={this.state.info} uploadedFileURL={this.state.info.uploadedFileURL} errorMessage={this.state.info.errorMessage} fileName={this.state.info.fileName}/>
-        }
-        {this.state.isEducationEdit ?
-          <EducationEdit submit={this.handleEducationSubmit} educationInputs={this.state.educationInputs} /> :
-          <EducationDisplay submit={() => this.toggleEdit('isEducationEdit')} educationInputs={this.state.educationInputs} />
-        }
-        {this.state.isSkillEdit ?
-          <SkillsEdit submit={this.handleSkillSubmit} skills={this.state.skills} /> :
-          <SkillsDisplay submit={() => this.toggleEdit('isSkillEdit')} skills={this.state.skills} />
-        }
+      <div id="cv-wrapper">
+        <div className="App">
+          <h1>CV React App</h1>
+          <br></br>
+          {this.state.isGeneralEdit ? 
+            <GeneralEdit 
+              submit={this.handleGeneralSubmit} 
+              info={this.state.info}
+            /> : 
+            <GeneralDisplay submit={() => this.toggleEdit('isGeneralEdit')} info={this.state.info} uploadedFileURL={this.state.info.uploadedFileURL} errorMessage={this.state.info.errorMessage} fileName={this.state.info.fileName}/>
+          }
+          {this.state.isEducationEdit ?
+            <EducationEdit submit={this.handleEducationSubmit} educationInputs={this.state.educationInputs} /> :
+            <EducationDisplay submit={() => this.toggleEdit('isEducationEdit')} educationInputs={this.state.educationInputs} />
+          }
+          {this.state.isSkillEdit ?
+            <SkillsEdit submit={this.handleSkillSubmit} skillsInputs={this.state.skillsInputs} /> :
+            <SkillsDisplay submit={() => this.toggleEdit('isSkillEdit')} skillsInputs={this.state.skillsInputs} />
+          }
+        </div>
       </div>
     )
-  }
+  }  
 }
 
 export default App;
