@@ -1,5 +1,6 @@
 {
   "name": "cv_app",
+  "homepage": "https://doingmybest.github.io/odin_project_cv_react_app/", <----
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,8 +19,10 @@
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
+"scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build", <----------- #1
+    "deploy": "gh-pages -d build", <---------- #2
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
