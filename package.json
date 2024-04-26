@@ -1,6 +1,6 @@
 {
   "name": "cv_app",
-  "homepage": "https://github.com/doingMyBest/odin_project_cv_react_app", 
+  "homepage": "https://doingmybest.github.io/odin_project_cv_react_app", 
   "version": "0.1.0",
   "private": true,
   "dependencies": {
